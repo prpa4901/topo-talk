@@ -1,7 +1,8 @@
-import asycio
+import asyncio
 import json
 import subprocess
 import time
+import paramiko
 
 class ClabInfoCollector:
 
