@@ -1,4 +1,3 @@
-from langchain_core import HumanMessage
 from langchain_community.embeddings import OllamaEmbeddings
 from langchain.chains import (
     create_history_aware_retriever,
@@ -46,8 +45,11 @@ contextualize_q_prompt = ChatPromptTemplate.from_messages(
 )
 
 
-
 class ChatBot:
+
+    """
+    ChatBot class
+    """
 
     def __init__(self):
         self.embeddings = OllamaEmbeddings(model="llama3",)
@@ -100,10 +102,10 @@ class ChatBot:
         self.vector_store = Chroma.from_documents(self.chunks, embedding=self.embeddings)
         self.vector_store.persist()
 
-    def create_conversational_chain(self, vh):
+    def create_conversational_chain(self):
         """Create the Conversational Retrieval Chain."""
 
-        retriever = vh.vector_store.as_retriever()
+        retriever = self.vector_store.as_retriever()
         history_aware_retriever = create_history_aware_retriever(
             self.llm,
             retriever,

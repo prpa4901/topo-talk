@@ -40,5 +40,16 @@ class ClabInfoCollector:
             output = self.ssh_client.exec_command(f"docker exec -it {node_name} cat /config/startup-config")
             device['startup-config'] = output
         print(self.info['clab']['data'][f"topo-{topo_name}"]['containers'])
+
+    def save_gather_info(self, topo_file_name):
+        """
+        Save the gathered info dictionary to a file
+        """
+        self.inspect_clab_topo(topo_file_name)
+        self.gather_startup_configs(topo_file_name)
+        topo_name = topo_file_name.split('.')[0]
+        with open(f"{topo_name}_info.json", "w", encoding='utf-8') as f:
+            f.write(json.dumps(self.info['clab']['data'][f"topo-{topo_name}"], indent=4))
+        print(f"Info saved to {topo_name}_info.json")
         
     
