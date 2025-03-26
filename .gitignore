@@ -2,3 +2,4 @@ topotalk*
 topologies/*-topology/*
 topologies/*bak
 .env
+topology_data
