@@ -66,7 +66,8 @@ class ChatBot:
         self.workflow = StateGraph(state_schema=MessagesState)
         self.initialize_loader()
         self.memory = MemorySaver()
-        self.setup_graph()
+        self.rag_chain = None
+        self.app_memory = None
 
 
     def initialize_loader(self):
@@ -116,21 +117,20 @@ class ChatBot:
             prompt_template
         )
 
-        rag_chain = create_retrieval_chain(
+        self.rag_chain = create_retrieval_chain(
             history_aware_retriever,
             question_answer_chain
         )
 
-        return rag_chain
 
-    def call_retrieval_node(self, chain, state: MessagesState):
+    def call_retrieval_node(self, state: MessagesState):
         """
         Call the retrieval node
         """
         user_query = state.messages[-1].text
         chat_history = state.messages[:-1]
 
-        response = chain.invoke({
+        response = self.rag_chain.invoke({
             "input": user_query,
             "chat_history": chat_history,
         })
