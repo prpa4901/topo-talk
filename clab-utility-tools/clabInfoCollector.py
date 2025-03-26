@@ -1,6 +1,4 @@
-import asyncio
 import json
-import subprocess
 import time
 from .constants import (
     REMOTE_HOST, REMOTE_USERNAME, REMOTE_PASSWORD, REMOTE_PORT, REMOTE_TOPOLOGY_DIRECTORY
@@ -26,22 +24,21 @@ class ClabInfoCollector:
         """
         Inspect the topology file and store the data in the info dictionary
         """
-        cmd = 'clab inspect {}/{} --format json'.format(REMOTE_TOPOLOGY_DIRECTORY,
-                                                        topo_file_name)
+        cmd = f"clab inspect {REMOTE_TOPOLOGY_DIRECTORY}/{topo_file_name} --format json"
         output = self.ssh_client.exec_command(cmd)
         topo_name = topo_file_name.split('.')[0]
-        self.info['clab']['data']['topo-{}'.format(topo_name)] = json.loads(output)
+        self.info['clab']['data'][f"topo-{topo_name}"] = json.loads(output)
 
- 
+
     def gather_startup_configs(self, topo_file_name):
         """
         Gather the startup-configs from the devices in the topology
         """
         topo_name = topo_file_name.split('.')[0]
-        for device in self.info['clab']['data']['topo-{}'.format(topo_name)]['containers']:
+        for device in self.info['clab']['data'][f"topo-{topo_name}"]['containers']:
             node_name = device['name']
-            output = self.ssh_client.exec_command('docker exec -it {} cat /config/startup-config'.format(node_name))
+            output = self.ssh_client.exec_command(f"docker exec -it {node_name} cat /config/startup-config")
             device['startup-config'] = output
-        print(self.info['clab']['data']['topo-{}'.format(topo_name)]['containers'])
+        print(self.info['clab']['data'][f"topo-{topo_name}"]['containers'])
         
     
