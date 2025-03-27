@@ -3,3 +3,6 @@ topologies/*-topology/*
 topologies/*bak
 .env
 topology_data
+__pycache__
+*.pyc
+vectorstore_db
