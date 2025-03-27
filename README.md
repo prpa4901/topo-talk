@@ -125,10 +125,7 @@ LLM fails to process queries.
 🔹 **Optimize Retrieval Speed (FAISS for Faster Queries)**  
 
 ---
-
-## 📈 **Credits & Contributors**
-- Developed by **[Your Name]**  
-- **Special Thanks** to OpenAI, LangChain, and Containerlab teams  
+ 
 
 ---
 
