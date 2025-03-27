@@ -14,7 +14,8 @@ class ParamikoSSHClient:
     
     def exec_command(self, command):
         stdin, stdout, stderr = self.client.exec_command(command)
-        return stdout.read().decode('utf-8')
+        op = stdout.read().decode('utf-8')
+        return op
     
     def close(self):
         self.client.close()
